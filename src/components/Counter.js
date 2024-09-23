@@ -1,23 +1,29 @@
-import { COUNTER, TOOGLE_COUNTER } from '../constants/counter';
+import { useDispatch, useSelector } from "react-redux";
+import { COUNTER } from '../constants/counter';
 import classes from './Counter.module.css';
-import { useSelector, useDispatch } from "react-redux";
+import { counterAction } from "../store/dispatch-action";
 
 const Counter = () => {
   const dispatch = useDispatch();
-  const isHideCounter = useSelector(state => state.isHideCounter)
-  const counter = useSelector(state => state.counter);
+  const isHideCounter = useSelector(state => state.counter.isHideCounter)
+  const counter = useSelector(state => state.counter.counter);
   const toggleCounterHandler = () => {
-    dispatch({type: TOOGLE_COUNTER})
+    dispatch(counterAction.toogle_counter())
   };
   const dispatchAction = (action) => {
     if (counter === 0  && action === COUNTER.DECREMENT) {
       return;
     }
     if (action === COUNTER.INCREASE) {
-      dispatch({type: action, counter: 5});
+      dispatch(counterAction.increase(5));
       return;
     }
-    dispatch({type: action})
+    if (action === COUNTER.INCREMENT) {
+      dispatch(counterAction.increment())
+    } else {
+      dispatch(counterAction.decrement())
+    }
+    // dispatch({type: action})
   };
   return (
     <main className={classes.counter}>

@@ -1,9 +1,15 @@
-import Counter from './components/Counter';
+import { useSelector } from 'react-redux';
+import Auth from './components/Auth';
+import Dashboard from './components/Dashboard';
+import Header from './components/Header';
 
 
 function App() {
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   return (
-    <Counter />
+    <>
+      {isAuthenticated ? <Dashboard /> : <> <Header/> <Auth /></>}
+    </>
   );
 }
 
