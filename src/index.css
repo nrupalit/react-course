@@ -29,3 +29,12 @@ button:active {
   border-color: #1ac5d1;
   color: white;
 }
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  inline-size: fit-content;
+  padding-left: 155px;
+}
+.grant-total {
+  color: white;
+}
