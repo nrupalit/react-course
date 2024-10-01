@@ -17,6 +17,10 @@ export const eventSlicer = createSlice({
     initialState,
     reducers: {
         addEvent(state, action) {
+            // const event = {
+            //     ...action.payload,
+            //     start: action.payload.start.getTime()
+            // }
             state.events.push(action.payload);
             localStorage.setItem('events', JSON.stringify(state.events));
         },

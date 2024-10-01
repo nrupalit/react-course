@@ -35,7 +35,7 @@ export default function DashboardCalendar() {
 
   const handleSelect = ({ start, end }) => {
     dispatch(modalAction.setCalenderFormModal(true));
-    dispatch(eventAction.setDate({ start: start.toISOString(), end: end.toISOString() }));
+    dispatch(eventAction.setDate({ start: start.getTime(), end: end.getTime() }));
   };
 
   const handleSelectEvent = (event) => {

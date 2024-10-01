@@ -12,8 +12,8 @@ export default function EventForm({ submitForm }) {
     const [formData, setFormData] = useState({
         meetingName: "",
         date: "",
-        startTime: "",
-        endTime: ""
+        startTime: 0,
+        endTime: 0
     });
     const selectedDate = useSelector(state => state.event.date);
     const [hrs, setHrs] = useState(1);
@@ -44,26 +44,13 @@ export default function EventForm({ submitForm }) {
             setError('Invalid name');
             return;
         }
-        // return;
-        const endTime = new Date(formData.startTime);
-        endTime.setHours(endTime.getHours() + hrs);
-
-        console.log(new Date(formData.startTime), endTime, new Date(formData.endTime), new Date(formData.startTime).setHours(hrs));
-        // return;
-        setFormData({
-            ...formData,
-            endTime: endTime.toISOString()
-        })
-        console.log(new Date(formData.startTime), new Date(formData.endTime));
-
-        submitForm(formData);
+        const endTime = Number(moment(new Date(formData.startTime)).add(hrs, 'hours').format('x'))
+        submitForm({ ...formData, endTime });
     };
     const handleTimeValues = (value, type) => {
-
         setFormData({
             ...formData,
-            [`${type}`]: new Date(value).toISOString()
-
+            [`${type}`]: new Date(value).getTime()
         })
     }
     const setHrsChange = (event) => {
