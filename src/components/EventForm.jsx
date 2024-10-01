@@ -44,11 +44,18 @@ export default function EventForm({ submitForm }) {
             setError('Invalid name');
             return;
         }
-        const endTime = moment(formData.startTime).add(hrs, 'hours');
+        // return;
+        const endTime = new Date(formData.startTime);
+        endTime.setHours(endTime.getHours() + hrs);
+
+        console.log(new Date(formData.startTime), endTime, new Date(formData.endTime), new Date(formData.startTime).setHours(hrs));
+        // return;
         setFormData({
             ...formData,
-            endTime
+            endTime: endTime.toISOString()
         })
+        console.log(new Date(formData.startTime), new Date(formData.endTime));
+
         submitForm(formData);
     };
     const handleTimeValues = (value, type) => {
