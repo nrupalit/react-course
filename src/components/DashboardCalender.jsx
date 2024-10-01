@@ -1,31 +1,59 @@
+import moment from "moment";
 import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import events from "./events";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { useDispatch, useSelector } from "react-redux";
+import CalenderModal from "./CalenderModal";
+import EventForm from "./EventForm";
+import { eventAction, modalAction } from "../redux/actions";
+import ViewEvent from "./ViewEvent";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
 
 export default function DashboardCalendar() {
-  const [eventsData, setEventsData] = useState(events);
+  const dispatch = useDispatch();
+  const eventsData = useSelector(state => state.event.events);
+  const isCalenderFormOpen = useSelector(state => state.modal.isCalenderFormOpen);
+  const isEventDetailsOpen = useSelector(state => state.modal.isEventDetailsOpen);
+  const [selectedEvent, setSelectedEvent] = useState(undefined);
+  const selectedDate = useSelector(state => state.event.date);
+
+  const handleSubmit = (e) => {
+    dispatch(eventAction.addEvent(
+      {
+        start: selectedDate.start,
+        end: selectedDate.end,
+        title: e.meetingName
+      }
+    ));
+    dispatch(modalAction.setCalenderFormModal(false))
+  };
 
   const handleSelect = ({ start, end }) => {
-    console.log(start);
-    console.log(end);
-    const title = window.prompt("New Event name");
-    if (title)
-      setEventsData([
-        ...eventsData,
-        {
-          start,
-          end,
-          title
-        }
-      ]);
+    dispatch(modalAction.setCalenderFormModal(true));
+    dispatch(eventAction.setDate({ start: start.toISOString(), end: end.toISOString() }));
+    console.log(isCalenderFormOpen);
+
   };
+
+  const handleSelectEvent = (event) => {
+    setSelectedEvent(event);
+    dispatch(modalAction.setEventDetailsModal(true))
+
+  }
+  const handleEventDetailsClose = (payload) => {
+    dispatch(modalAction.setEventDetailsModal(payload))
+  }
+  const handleCalenderFormClose = (payload) => {
+    dispatch(modalAction.setCalenderFormModal(payload))
+  }
   return (
-    <div className="App">
+    <>
+      {isEventDetailsOpen && <ViewEvent {...selectedEvent} handleClose={handleEventDetailsClose} />}
+      {isCalenderFormOpen &&
+        <CalenderModal body={<EventForm submitForm={handleSubmit} />} isModalOpen={isCalenderFormOpen} handleClose={handleCalenderFormClose} />
+      }
       <Calendar
         views={["day", "agenda", "work_week", "month"]}
         selectable
@@ -34,9 +62,10 @@ export default function DashboardCalendar() {
         defaultView="month"
         events={eventsData}
         style={{ height: "100vh" }}
-        onSelectEvent={(event) => alert(event.title)}
+        onSelectEvent={(event) => handleSelectEvent(event)}
         onSelectSlot={handleSelect}
       />
-    </div>
+
+    </>
   );
 }
