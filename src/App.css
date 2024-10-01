@@ -50,6 +50,20 @@
     margin: 20px;
 }
 .event-form-submit {
-    margin: 20px !important;
+    margin: 20px 0 !important;
     border: 1px solid #5f9ea0 !important;
+}
+.modal-submit {
+    margin: 20px !important;
+    border: 1px solid #6f82a5 !important;
+}
+.modal-card {
+    box-shadow: none !important;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.event-form-time-picker {
+    margin: 20px 0 !important;
 }

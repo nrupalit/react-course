@@ -73,6 +73,7 @@ export default function EventForm({ submitForm }) {
                         ]}
                     >
                         <TimePicker
+                            className="event-form-time-picker"
                             label="Start time"
                             value={moment(new Date(formData.startTime))}
                             onChange={(e) => handleTimeValues(e, 'startTime')}

@@ -24,21 +24,21 @@ export default function CalenderModal({ title, body, close, submit, isModalOpen 
     return (
         <>
             <Drawer open={show} onClose={handleModalClose}>
-                <Card>
+                <Card className="modal-card">
                     {title && <CardHeader>
                         {title}
                     </CardHeader>}
                     {body && <CardContent>
                         {body}
                     </CardContent>}
-                    {!close?.length &&
+                    {close?.length &&
                         <Button variant="secondary" onClick={handleModalClose}>
                             {close}
                         </Button>
                     }
-                    <Button variant="primary" onClick={handleModalClose}>
+                    {submit?.length && <Button className="modal-submit" variant="primary" onClick={handleModalClose}>
                         {submit}
-                    </Button>
+                    </Button>}
                 </Card>
             </Drawer>
         </>
