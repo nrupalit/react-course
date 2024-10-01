@@ -11,8 +11,8 @@ ViewEvent.propTypes = {
 }
 export default function ViewEvent({ title, start, end, handleClose }) {
     const { date } = useGetDate(start);
-    const { time: startTime } = useGetTime(start)
-    const { time: endTime } = useGetTime(end)
+    const startTime = useGetTime(start)
+    const endTime = useGetTime(end)
     const EventDetails = () => {
         return (<>
             <h3>Event Name: {title}</h3>

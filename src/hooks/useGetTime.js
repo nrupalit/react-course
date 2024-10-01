@@ -1,9 +1,6 @@
-export function useGetTime(initialValue) {
-    const convertedTime = new Date(initialValue);
-    console.log(convertedTime);
+import moment from "moment";
 
-    const time = `${convertedTime.getHours()}: ${convertedTime.getMinutes()}`;
-    return {
-        time
-    }
+export function useGetTime(initialValue) {
+    const time = moment(new Date(initialValue)).format("HH:mm");
+    return time;
 }
