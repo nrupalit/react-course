@@ -18,9 +18,12 @@ export default function EventForm({ submitForm }) {
     const selectedDate = useSelector(state => state.event.date);
     const [hrs, setHrs] = useState(1);
     const listOfHrs = Array.from({ length: 10 }, (_, i) => i + 1);
-    const { date } = useGetDate();
+    const { date } = useGetDate(selectedDate.start);
+    const [error, setError] = useState()
     useEffect(() => {
         if (selectedDate) {
+            console.log(selectedDate.start, moment(new Date(formData.startTime)));
+
             setFormData({
                 ...formData,
                 startTime: selectedDate.start,
@@ -28,7 +31,7 @@ export default function EventForm({ submitForm }) {
                 date
             })
         }
-    }, [date, formData, selectedDate])
+    }, [])
     const handleInput = (event) => {
         setFormData({
             ...formData,
@@ -37,6 +40,10 @@ export default function EventForm({ submitForm }) {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!formData.meetingName.length) {
+            setError('Invalid name');
+            return;
+        }
         const endTime = moment(formData.startTime).add(hrs, 'hours');
         setFormData({
             ...formData,
@@ -45,9 +52,10 @@ export default function EventForm({ submitForm }) {
         submitForm(formData);
     };
     const handleTimeValues = (value, type) => {
+
         setFormData({
             ...formData,
-            [`${type}`]: value.toISOString()
+            [`${type}`]: new Date(value).toISOString()
 
         })
     }
@@ -61,6 +69,7 @@ export default function EventForm({ submitForm }) {
                 <FormGroup className="meeting-name">
                     <InputLabel htmlFor="meetingName">Name</InputLabel>
                     <Input id="meetingName" value={formData.meetingName} onChange={handleInput} />
+                    {error}
                 </FormGroup>
                 <LocalizationProvider dateAdapter={AdapterMoment}>
                     <DemoContainer
@@ -74,20 +83,21 @@ export default function EventForm({ submitForm }) {
                             value={moment(new Date(formData.startTime))}
                             onChange={(e) => handleTimeValues(e, 'startTime')}
                         />
-                        <FormControl>
-                            <Select
-                                value={hrs}
-                                onChange={setHrsChange}
-                                displayEmpty
-                                inputProps={{ 'aria-label': 'Without label' }}
-                            >
-                                {listOfHrs.map(valueHrs =>
-                                    <MenuItem value={valueHrs} key={valueHrs}>{valueHrs}</MenuItem>
-                                )}
-                            </Select>
-                        </FormControl>
+
                     </DemoContainer>
                 </LocalizationProvider>
+                <FormControl>
+                    <Select
+                        value={hrs}
+                        onChange={setHrsChange}
+                        displayEmpty
+                        inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                        {listOfHrs.map(valueHrs =>
+                            <MenuItem value={valueHrs} key={valueHrs}>{valueHrs}</MenuItem>
+                        )}
+                    </Select>
+                </FormControl>
                 <Button className="event-form-submit" onClick={handleSubmit}>Submit</Button>
             </FormControl>
         </>
