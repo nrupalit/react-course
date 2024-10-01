@@ -7,6 +7,7 @@ import CalenderModal from "./CalenderModal";
 import EventForm from "./EventForm";
 import { eventAction, modalAction } from "../redux/actions";
 import ViewEvent from "./ViewEvent";
+import CustomToolbar from "./CustomToolbar";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -64,6 +65,9 @@ export default function DashboardCalendar() {
         style={{ height: "100vh" }}
         onSelectEvent={(event) => handleSelectEvent(event)}
         onSelectSlot={handleSelect}
+        components={{
+          toolbar: CustomToolbar
+        }}
       />
 
     </>

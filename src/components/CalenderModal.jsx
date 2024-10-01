@@ -8,7 +8,7 @@ CalenderModal.propTypes = {
     close: PropTypes.string,
     submit: PropTypes.string,
     isModalOpen: PropTypes.bool,
-
+    handleClose: PropTypes.func
 }
 
 export default function CalenderModal({ title, body, close, submit, isModalOpen = false, handleClose }) {
