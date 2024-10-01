@@ -3,11 +3,11 @@ import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useDispatch, useSelector } from "react-redux";
-import CalenderModal from "./CalenderModal";
-import EventForm from "./EventForm";
 import { eventAction, modalAction } from "../redux/actions";
-import ViewEvent from "./ViewEvent";
+import CalenderModal from "./CalenderModal";
 import CustomToolbar from "./CustomToolbar";
+import EventForm from "./EventForm";
+import ViewEvent from "./ViewEvent";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -18,13 +18,13 @@ export default function DashboardCalendar() {
   const isCalenderFormOpen = useSelector(state => state.modal.isCalenderFormOpen);
   const isEventDetailsOpen = useSelector(state => state.modal.isEventDetailsOpen);
   const [selectedEvent, setSelectedEvent] = useState(undefined);
-  const selectedDate = useSelector(state => state.event.date);
+  // const selectedDate = useSelector(state => state.event.date);
 
   const handleSubmit = (e) => {
     dispatch(eventAction.addEvent(
       {
-        start: selectedDate.startTime,
-        end: selectedDate.endTime,
+        start: e.startTime,
+        end: e.endTime,
         title: e.meetingName
       }
     ));
@@ -59,7 +59,9 @@ export default function DashboardCalendar() {
         localizer={localizer}
         defaultDate={new Date()}
         defaultView="month"
-        events={eventsData}
+        events={eventsData.map(event => {
+          return { ...event, start: new Date(event.start), end: new Date(event.end) }
+        })}
         style={{ height: "100vh" }}
         onSelectEvent={(event) => handleSelectEvent(event)}
         onSelectSlot={handleSelect}

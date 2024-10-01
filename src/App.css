@@ -50,6 +50,6 @@
     margin: 20px;
 }
 .event-form-submit {
-    margin: 20px;
-    border: 1px solid #5f9ea0;
+    margin: 20px !important;
+    border: 1px solid #5f9ea0 !important;
 }
