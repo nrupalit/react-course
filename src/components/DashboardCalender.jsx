@@ -21,8 +21,6 @@ export default function DashboardCalendar() {
   // const selectedDate = useSelector(state => state.event.date);
 
   const handleSubmit = (e) => {
-    console.log(e, new Date(e.startTime), new Date(e.endTime));
-    // return;
     dispatch(eventAction.addEvent(
       {
         start: e.startTime,

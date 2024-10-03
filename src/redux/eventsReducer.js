@@ -1,11 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getRandomId } from "../commonFunctions/getRandomId";
 
 const initialState = {
-    events: [{
-        end: "2024-08-31T18:30:00.000Z",
-        start: "2024-08-31T18:30:00.000Z",
-        title: "Sample Event"
-    }],
+    events: [],
     date: {
         start: undefined,
         end: undefined
@@ -17,20 +14,26 @@ export const eventSlicer = createSlice({
     initialState,
     reducers: {
         addEvent(state, action) {
-            // const event = {
-            //     ...action.payload,
-            //     start: action.payload.start.getTime()
-            // }
-            state.events.push(action.payload);
+            const event = {
+                ...action.payload,
+                id: getRandomId()
+            }
+            state.events.push(event);
             localStorage.setItem('events', JSON.stringify(state.events));
         },
         removeEvent(state, action) {
-            const sliceEventIndex = state.events.findIndex(event => event.id === action.payload)
-            state.events = state.events.slice(sliceEventIndex, 1);
+            state.events = state.events.filter(event => event.id !== action.payload);
             localStorage.setItem('events', JSON.stringify(state.events))
         },
         addLocalStorageEvents(state, action) {
-            state.events = [...action.payload];
+            const events = action.payload.map(event => {
+                if (!event.id) {
+                    return { ...event, id: getRandomId() }
+                }
+                return { ...event }
+            });
+            localStorage.setItem('events', JSON.stringify(events))
+            state.events = [...events];
         },
         setDate(state, action) {
             state.date = action.payload;
