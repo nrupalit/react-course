@@ -1,8 +1,24 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
-import DashboardCalendar from './components/DashboardCalender'
 import { eventAction } from './redux/actions'
+import DashboardCalendar from './components/DashboardCalender'
+import ErrorPage from './components/errorPage'
+import RootLayout from './components/RootLayout'
+import Auth from './components/Auth'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      { path: '/login', element: <Auth />, },
+      { path: '/', element: <DashboardCalendar /> }
+    ],
+    errorElement: <ErrorPage />
+  }
+]);
 
 function App() {
   const dispatch = useDispatch()
@@ -12,9 +28,7 @@ function App() {
       dispatch(eventAction.addLocalStorageEvents(events))
     }
   })
-  return (
-    <DashboardCalendar />
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App
