@@ -25,7 +25,8 @@ export default function DashboardCalendar() {
       {
         start: e.startTime,
         end: e.endTime,
-        title: e.meetingName
+        title: e.meetingName,
+        id: e.id
       }
     ));
     dispatch(modalAction.setCalenderFormModal(false))
@@ -33,7 +34,7 @@ export default function DashboardCalendar() {
 
   const handleSelect = ({ start, end }) => {
     dispatch(modalAction.setCalenderFormModal(true));
-    dispatch(eventAction.setDate({ start: start.getTime(), end: end.getTime() }));
+    dispatch(eventAction.setSelectedEvent({ start: start.getTime(), end: end.getTime() }));
   };
 
   const handleSelectEvent = (event) => {

@@ -22,6 +22,10 @@ export default function ViewEvent({ id, title, start, end, handleClose }) {
         dispatch(eventAction.removeEvent(id));
         dispatch(modalAction.closeAllModal());
     }
+    const handleEditEvent = () => {
+        dispatch(eventAction.setSelectedEvent({ id: id, title: title, start: start.getTime(), end: end.getTime() }));
+        dispatch(modalAction.setCalenderFormModal(true));
+    }
     const EventDetails = () => {
         return (<>
             <h3>Event Name: {title}</h3>
@@ -29,6 +33,7 @@ export default function ViewEvent({ id, title, start, end, handleClose }) {
             <p>Start Date: {startTime}</p>
             <p>End Date: {endTime}</p>
             <Button onClick={handleDeleteEvent}>Delete event</Button>
+            <Button onClick={handleEditEvent}>Edit event</Button>
         </>)
     }
     return (

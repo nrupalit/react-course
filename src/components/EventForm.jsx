@@ -6,30 +6,39 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetDate } from "../hooks/useGetDate";
+import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react/prop-types
+EventForm.propTypes = {
+    submitForm: PropTypes.func.isRequired
+}
+
 export default function EventForm({ submitForm }) {
     const [formData, setFormData] = useState({
         meetingName: "",
         date: "",
         startTime: 0,
-        endTime: 0
+        endTime: 0,
+        id: ""
     });
-    const selectedDate = useSelector(state => state.event.date);
+    const selectedEvent = useSelector(state => state.event.selectedEvent);
     const [hrs, setHrs] = useState(1);
     const listOfHrs = Array.from({ length: 10 }, (_, i) => i + 1);
-    const { date } = useGetDate(selectedDate.start);
-    const [error, setError] = useState()
+    const { date } = useGetDate(selectedEvent.start);
+    const [error, setError] = useState();
+    const [isEdit, setIsEdit] = useState(false);
     useEffect(() => {
-        if (selectedDate) {
-            console.log(selectedDate.start, moment(new Date(formData.startTime)));
-
+        if (selectedEvent.start) {
             setFormData({
                 ...formData,
-                startTime: selectedDate.start,
-                endTime: selectedDate.end,
+                meetingName: selectedEvent.title || "",
+                startTime: selectedEvent.start,
+                endTime: selectedEvent.end,
+                id: selectedEvent.id || "",
                 date
             })
+            if (selectedEvent.title) {
+                setIsEdit(true)
+            }
         }
     }, [])
     const handleInput = (event) => {
@@ -93,7 +102,7 @@ export default function EventForm({ submitForm }) {
                         )}
                     </Select>
                 </FormControl>
-                <Button className="event-form-submit" onClick={handleSubmit}>Submit</Button>
+                <Button className="event-form-submit" onClick={handleSubmit}>{isEdit ? 'Edit' : 'Submit'}</Button>
             </FormControl>
         </>
     );

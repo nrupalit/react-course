@@ -3,9 +3,11 @@ import { getRandomId } from "../commonFunctions/getRandomId";
 
 const initialState = {
     events: [],
-    date: {
+    selectedEvent: {
         start: undefined,
-        end: undefined
+        end: undefined,
+        title: undefined,
+        id: undefined
     }
 };
 
@@ -14,11 +16,21 @@ export const eventSlicer = createSlice({
     initialState,
     reducers: {
         addEvent(state, action) {
-            const event = {
-                ...action.payload,
-                id: getRandomId()
+            // Edit event
+            if (action.payload.id) {
+                const eventIndex = state.events.findIndex(event => event.id === action.payload.id);
+                if (eventIndex === -1) {
+                    console.error("Index not found");
+                }
+                state.events[eventIndex] = action.payload;
+            } else {
+                // new event
+                const event = {
+                    ...action.payload,
+                    id: getRandomId()
+                }
+                state.events.push(event);
             }
-            state.events.push(event);
             localStorage.setItem('events', JSON.stringify(state.events));
         },
         removeEvent(state, action) {
@@ -35,13 +47,15 @@ export const eventSlicer = createSlice({
             localStorage.setItem('events', JSON.stringify(events))
             state.events = [...events];
         },
-        setDate(state, action) {
-            state.date = action.payload;
+        setSelectedEvent(state, action) {
+            state.selectedEvent = action.payload;
         },
-        removeDate(state) {
-            state.date = {
+        removeSelectedEvent(state) {
+            state.selectedEvent = {
                 start: undefined,
-                end: undefined
+                end: undefined,
+                title: undefined,
+                id: undefined
             }
         }
     }
