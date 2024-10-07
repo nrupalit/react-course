@@ -1,0 +1,30 @@
+.login {
+    &-container {
+        width: 100vw;
+        background-color: #214d9d;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .form-input {
+            &-container {
+                background-color: #ffff;
+                padding: 70px 90px;
+                border-radius: 15px;
+            }
+            &-header-container {
+                display: flex;
+                button:hover {
+                    background: transparent;
+                }
+            }
+            &-heading {
+                font-size: 28px;
+                font-weight: 100;
+            }
+            &-password {
+                margin-top: 20px !important;
+            }
+        }
+    }
+}

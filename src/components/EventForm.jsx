@@ -68,28 +68,30 @@ export default function EventForm({ submitForm }) {
     return (
         <>
             <div>Schedule Meeting <h2>{formData.date}</h2></div>
-            <FormControl>
-                <FormGroup className="meeting-name">
+            <FormGroup>
+                <FormControl className="meeting-name">
                     <InputLabel htmlFor="meetingName">Name</InputLabel>
                     <Input id="meetingName" value={formData.meetingName} onChange={handleInput} />
                     {error}
-                </FormGroup>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                    <DemoContainer
-                        components={[
-                            'TimePicker',
-                            'TimePicker',
-                        ]}
-                    >
-                        <TimePicker
-                            className="event-form-time-picker"
-                            label="Start time"
-                            value={moment(new Date(formData.startTime))}
-                            onChange={(e) => handleTimeValues(e, 'startTime')}
-                        />
+                </FormControl>
+                <FormControl>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <DemoContainer
+                            components={[
+                                'TimePicker',
+                                'TimePicker',
+                            ]}
+                        >
+                            <TimePicker
+                                className="event-form-time-picker"
+                                label="Start time"
+                                value={moment(new Date(formData.startTime))}
+                                onChange={(e) => handleTimeValues(e, 'startTime')}
+                            />
 
-                    </DemoContainer>
-                </LocalizationProvider>
+                        </DemoContainer>
+                    </LocalizationProvider>
+                </FormControl>
                 <FormControl>
                     <Select
                         value={hrs}
@@ -103,7 +105,7 @@ export default function EventForm({ submitForm }) {
                     </Select>
                 </FormControl>
                 <Button className="event-form-submit" onClick={handleSubmit}>{isEdit ? 'Edit' : 'Submit'}</Button>
-            </FormControl>
+            </FormGroup>
         </>
     );
 } 

@@ -60,7 +60,7 @@ export default function DashboardCalendar() {
         localizer={localizer}
         defaultDate={new Date()}
         defaultView="month"
-        events={eventsData.map(event => {
+        events={eventsData?.map(event => {
           return { ...event, start: new Date(event.start), end: new Date(event.end) }
         })}
         style={{ height: "100vh" }}
