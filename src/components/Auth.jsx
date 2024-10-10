@@ -6,9 +6,12 @@ import '../assets/styles/auth.scss';
 import { API, BASE_URL } from "../constants/api";
 import { ROUTES } from "../constants/routes";
 import { InfoOutlined } from '@mui/icons-material';
+import { authAction } from "../redux/actions";
+import { useDispatch } from "react-redux";
 
 export default function Auth() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [loginForm, setLoginForm] = useState({
         username: '',
         password: ''
@@ -27,6 +30,7 @@ export default function Auth() {
             ...loginForm
         }).then(res => {
             if (res.status === 200) {
+                dispatch(authAction.setToken(res.data.accessToken))
                 navigate(ROUTES.DASHBOARD)
             }
         })

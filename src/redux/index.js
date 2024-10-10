@@ -3,6 +3,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { eventSlicer } from "./eventsReducer";
 import { modalSlicer } from "./modalReducer";
+import { authSlicer } from "./authReducer";
 
 const persistConfig = {
     key: "root",
@@ -12,6 +13,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     event: eventSlicer.reducer,
     modal: modalSlicer.reducer,
+    auth: authSlicer.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
